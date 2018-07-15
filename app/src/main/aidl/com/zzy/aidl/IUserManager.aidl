@@ -10,8 +10,11 @@ interface IUserManager {
 //    User getUser();
 
     //传参时除了基本数据类型、String、CharSequence外，都需要在前面加上定向tag，具体加什么量需而定
-    void setUser(in User user);
-//    void setUser(out User user);
+    // 定向tag in：只允许Client将对象A传递给Service，当修改Service的A时，Client中的A不会发生改变
+//    void setUser(in User user);
+    // 定向tag out: Client传递空对象A给Service，当修改Service的A时，Client的A也会随之改变
+    void setUser(out User user);
+    // 定向tag inout：双向车道
 //    void setUser(inout User user);
 //    void setUserName(String name);
 

@@ -19,6 +19,7 @@
             </intent-filter>
         </activity>
 
+        <!--android:process=":remote" 在独立进程开启服务，只允许此app内部调用-->
         <service
             android:name="com.zzy.service.ServiceT"
             android:enabled="true"

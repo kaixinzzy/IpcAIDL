@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onStop();
         if (isConnect) {
             unbindService(mServiceConnection);
+            isConnect = false;
         }
     }
 
@@ -77,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             connectService();
             return;
         }
+        if (iUserManager == null) return;
         switch (view.getId()) {
             case R.id.set:
                 user = new User();

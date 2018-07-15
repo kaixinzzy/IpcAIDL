@@ -3,6 +3,8 @@ package com.zzy.service;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.os.Parcel;
+import android.os.RemoteException;
 import android.util.Log;
 
 import com.zzy.aidl.IUserManager;
@@ -26,15 +28,25 @@ public class ServiceT extends Service {
         public void setUser(User user) {
             synchronized (this) {
                 if (user == null) {
-                    return;
+                    Log.d(TAG, "user is null");
+                    user = new User();
                 }
-                Log.d(TAG, user.getName());
-                // 修改属性，看客户端数据变化
-                user.setName("第二行代码");
+                Log.d(TAG, user.getName() == null ? "name is null" : user.getName());
+                user.setName("第二行代码");// 修改属性，看客户端数据变化
                 Log.d(TAG, user.getName());
                 if (!mUsers.contains(user)) {
                     mUsers.add(user);
                 }
+            }
+        }
+
+        @Override // 错误Log显示
+        public boolean onTransact(int code, Parcel data, Parcel reply, int flags) throws RemoteException {
+            try {
+                return super.onTransact(code, data, reply, flags);
+            } catch (RuntimeException e) {
+                e.printStackTrace();
+                throw e;
             }
         }
     };
