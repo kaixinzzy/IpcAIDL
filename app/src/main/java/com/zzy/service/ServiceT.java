@@ -7,6 +7,7 @@ import android.os.Parcel;
 import android.os.RemoteException;
 import android.util.Log;
 
+import com.zzy.aidl.IMainListener;
 import com.zzy.aidl.IUserManager;
 import com.zzy.aidl.User;
 
@@ -16,6 +17,7 @@ import java.util.List;
 public class ServiceT extends Service {
     private final String TAG = this.getClass().getSimpleName();
 
+    private IMainListener callBack;
     private List<User> mUsers = new ArrayList<>();
 
     private final IUserManager.Stub mUserManager = new IUserManager.Stub() {
@@ -38,6 +40,18 @@ public class ServiceT extends Service {
                     mUsers.add(user);
                 }
             }
+        }
+
+        @Override
+        public void registerListener(IMainListener listener) {
+            if (listener != null){
+                callBack = listener;
+            }
+        }
+
+        @Override
+        public void unregisterListener(IMainListener listener) {
+            callBack = null;
         }
 
         @Override // 错误Log显示

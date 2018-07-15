@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
+import com.zzy.aidl.IMainListener;
 import com.zzy.aidl.IUserManager;
 import com.zzy.aidl.User;
 
@@ -57,20 +58,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bindService(intent, mServiceConnection, Context.BIND_AUTO_CREATE);
     }
 
+    // 连接Service成功 or 失败
     private ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
             Log.d(TAG, "service connected");
             isConnect = true;
             iUserManager = IUserManager.Stub.asInterface(iBinder);
+            try {
+                // 注册回调接口
+                iUserManager.registerListener(iMainListener);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
         public void onServiceDisconnected(ComponentName componentName) {
             Log.d(TAG, "service disconnected");
             isConnect = false;
+            iUserManager = null;
         }
     };
+
+    // Service回调Client中的方法
+    private IMainListener iMainListener = new IMainListener.Stub() {
+        @Override
+        public void onAction(int what) {
+
+        }
+
+        @Override
+        public void onActiion(String msg) {
+
+        }
+    };
+
     private User user = null;
     @Override
     public void onClick(View view) {

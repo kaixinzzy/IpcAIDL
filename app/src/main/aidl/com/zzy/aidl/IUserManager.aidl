@@ -2,6 +2,8 @@ package com.zzy.aidl;
 
 // 导入所有需要使用非基础数据类型的包
 import com.zzy.aidl.User;
+//import com.zzy.aidl.MainListener;
+import com.zzy.aidl.IMainListener;
 
 interface IUserManager {
 
@@ -17,5 +19,8 @@ interface IUserManager {
     // 定向tag inout：双向车道
 //    void setUser(inout User user);
 //    void setUserName(String name);
+
+    void registerListener(in IMainListener listener);// 注册回调接口
+    void unregisterListener(in IMainListener listener);// 解注册回调接口
 
 }
